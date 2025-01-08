@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="afegirDocumentacioClientContent">
+            <section>
+                <h2>Afegir Documentació</h2>
+                <form th:action="@{/admin/clients/{id}/documents/save(id=${client.dni})}" 
+                      method="post" enctype="multipart/form-data">
+                    <div>
+                        <label for="documentType">Tipus de document:</label>
+                        <select name="documentType" id="documentType" required>
+                            <option value="DNI">DNI</option>
+                            <option value="LLICENCIA">Licència de Conduir</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="frontFile">Anvers:</label>
+                        <input type="file" name="frontFile" accept="image/*" required />
+                    </div>
+                    <div>
+                        <label for="backFile">Revers:</label>
+                        <input type="file" name="backFile" accept="image/*" required />
+                    </div>
+                    <button type="submit" class="btn btn-success">Guardar Document</button>
+                </form>
+
+                <a th:href="@{/admin/clients/{id}(id=${client.dni})}" class="btn btn-primary">Tornar</a>
+            </section>
+        </div>
+    </body><!-- comment -->
+</html>

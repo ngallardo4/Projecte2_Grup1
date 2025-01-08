@@ -1,0 +1,73 @@
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Crear Reserva</title>
+    </head>
+    <body>
+        <div th:fragment="crearReservaContent">
+            <h1>Crear Reserva</h1>
+            <form id="crearReservaForm" th:action="@{/admin/reserves/crear}" th:object="${reserva}" method="post">
+                <!-- Fechas -->
+                <fieldset>
+                    <legend>1. Selecciona les dates</legend>
+                    <label for="dataInici">Data Inici</label>
+                    <input type="datetime-local" id="dataInici" name="dataInici" required />
+                    <label for="dataFin">Data Finalització</label>
+                    <input type="datetime-local" id="dataFin" name="dataFin" required />
+                    <button type="button" id="checkAvailability" disabled>Comprovar disponibilitat</button>
+                </fieldset>
+
+                <!-- Cliente -->
+                <fieldset>
+                    <legend>2. Selecciona un client</legend>
+                    <label for="client">Client</label>
+                    <select id="client" name="client.dni" required disabled>
+                        <option value="" disabled selected>Selecciona un client</option>
+                        <option th:each="client : ${clients}" 
+                                th:value="${client.dni}" 
+                                th:text="${client.nom + ' ' + client.cognoms + ' (' + client.reputacio + ')'}" 
+                                th:data-reputacio="${client.reputacio}">
+                        </option>
+                    </select>
+                    <input type="hidden" id="reputacio" value="NORMAL" />
+                </fieldset>
+
+                <!-- Vehículos -->
+                <fieldset>
+                    <legend>3. Selecciona un vehicle</legend>
+                    <label for="vehicle">Vehicle</label>
+                    <select id="vehicle" name="vehicle.matricula" required disabled>
+                        <option value="" disabled selected>Selecciona un vehícle</option>
+                    </select>
+                </fieldset>
+
+                <fieldset id="vehicleDetails" style="display: none;">
+                    <legend>Detalls del vehicle seleccionat</legend>
+                    <table>
+                        <tr><td>Preu per hora:</td><td id="vehiclePrice">--</td></tr>
+                        <tr><td>Fiança estàndard:</td><td id="vehicleFianca">--</td></tr>
+                        <tr><td>Mínim hores lloguer:</td><td id="vehicleMinimHores">--</td></tr>
+                        <tr><td>Màxim hores lloguer:</td><td id="vehicleMaximHores">--</td></tr>
+                        <tr><td>Passatgers:</td><td id="vehiclePassatgers">--</td></tr>
+                        <tr><td>Tipus de vehicle:</td><td id="vehicleTipus">--</td></tr>
+                        <tr><td>Ciutat</td><td id="vehicleCiutat">--</td></tr>
+                        <tr><td>Codi postal</td><td id="vehicleCodiPostal">--</td></tr>
+                    </table>
+                </fieldset>
+                <!-- Detalles del Precio -->
+                <fieldset>
+                    <legend>Detalls del preu</legend>
+                    <p>Hores: <span id="totalHoras">--</span></p>
+                    <p>Preu total per hores: €<span id="costHoras">--</span></p>
+                    <p>Fiança: €<span id="fiancaCalculada">--</span></p>
+                    <p>Cost total de reserva: €<span id="costTotal">--</span></p>
+                </fieldset>
+
+                <button id="crearReservaButton" type="submit" disabled>Crear Reserva</button>
+            </form>
+        </div>
+    </body>
+</html>

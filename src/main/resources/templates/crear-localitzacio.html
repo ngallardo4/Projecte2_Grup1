@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Crear Localització</title>
+                </head>
+                <body>
+                    <div th:fragment="crearLocalitzacioContent">
+                        <div class="container mt-5">
+                            <h2 th:text="${crear ? 'Crear Localització' : 'Modificar Localització'}">Crear Localització</h2>
+                            <form th:action="${crear} ? @{/admin/localitzacio/crear-localitzacio} : @{/admin/localitzacio/{codiPostal}/modificar(codiPostal=${localitzacio.codiPostal})}"
+                                  th:object="${localitzacio}" method="post">
+                                <div th:if="${error}" class="alert alert-danger" role="alert">
+                                    [[${error}]]
+                                </div>
+                                <div class="mb-3">
+                                    <label for="codi_postal" class="form-label">Codi postal:</label>
+                                    <input type="text" id="codi_postal" th:field="*{codiPostal}" class="form-control"
+                                           pattern="\d+" title="El codi postal ha de contenir només números" required 
+                                           th:disabled="${!crear}"/>
+                                </div>
+                                <div class="mb-3" th:if="${error_codi}">
+                                    <p class="text-danger">[[${error_codi}]]</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pais" class="form-label">Pais:</label>
+                                    <input type="text" id="pais" th:field="*{pais}" class="form-control" maxlength="200" minlength="3" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ciutat" class="form-label">Ciutat:</label>
+                                    <input type="text" id="ciutat" th:field="*{ciutat}" class="form-control" maxlength="200" minlength="2" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="adreca" class="form-label">Adreça:</label>
+                                    <input type="text" id="adreca" th:field="*{adreca}" class="form-control" maxlength="255" minlength="3" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tipus" class="form-label">Tipus: (parking, aeroport, centre comercial, etc)</label>
+                                    <input type="text" id="tipus" th:field="*{tipus}" class="form-control" maxlength="200" minlength="3" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="horariApertura" class="form-label">Horari apertura:</label>
+                                    <input type="time" id="horariApertura" th:field="*{horariApertura}" class="form-control" step="900" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="horariTancament" class="form-label">Horari tancament:</label>
+                                    <input type="time" id="horariTancament" th:field="*{horariTancament}" class="form-control" step="900" required />
+                                </div>
+                                <div class="mb-3" th:if="${error_horari}">
+                                    <p class="text-danger">[[${error_horari}]]</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="agentDropdown" class="form-label">Assignar agent:</label>
+                                    <select id="agentDropdown" th:field="*{agent}" class="form-select" required>
+                                        <option value="" disabled selected>Selecciona un agent...</option>
+                                        <th:block th:each="agent : ${agents}">
+                                            <option th:value="${agent.dni}" th:text="${agent.nom} + ' (' + ${agent.dni} + ')'"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                        th:text="${crear ? 'Crear localització' : 'Guardar canvis'}"></button>
+                                <a th:href="@{/admin/localitzacio}" class="btn btn-secondary">Tornar enrere</a>
+                            </form>
+                        </div>
+                    </div>
+                </body>
+                </html>

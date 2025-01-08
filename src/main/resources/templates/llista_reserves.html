@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Llista de Reserves</title>
+    </head>
+    <body>
+        <div th:fragment="llistarReservaContent">
+        <div th:if="${isAdmin != null and isAdmin}">
+            <h1 class="text-center">Llista de Reserves</h1>
+
+            <!-- Opciones solo para administradores -->
+            <div class="d-flex justify-content-end mb-3">
+                <a th:href="@{/admin/reserves/nova}" class="btn btn-primary">Crear Reserva</a>
+                <a th:href="@{/admin/reserves/historic}" class="btn btn-secondary ms-3">Històric de Reserves</a>
+            </div>
+
+            <!-- Contador de reservas -->
+            <p>Total de reserves: <span th:text="${totalReserves}">0</span></p>
+            <p>Suma total de cost de reserves: <span th:text="${sumaTotalCost}">0 €</span></p>
+
+            <!-- Formularios de Búsqueda -->
+            <div class="mb-4">
+                <form th:action="@{/admin/reserves/buscar}" method="get" style="display: inline-block; margin-right: 10px;">
+                    <input type="text" name="query" placeholder="Cerca per matrícula, email, DNI, etc." />
+                    <button type="submit">Cerca</button>
+                </form>
+                <form th:action="@{/admin/reserves/buscar-per-id}" method="get" style="display: inline-block;">
+                    <input type="text" name="id" placeholder="Cerca per ID exacte" />
+                    <button type="submit">Cerca</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabla de reservas -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Id Reserva</th>
+                    <th>Client</th>
+                    <th>Vehicle</th>
+                    <th>Cost de reserva</th>
+                    <th>Data Inici</th>
+                    <th>Data Fin</th>
+                    <th>Fiança</th>
+                    <th>Estat</th>
+                    <th>Accions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reserva : ${reserves}">
+                    <td th:text="${reserva.id}"></td>
+                    <td th:text="${reserva.client.nom}"></td>
+                    <td th:text="${reserva.vehicle.nomVehicle}"></td>
+                    <td th:text="${reserva.costReserva + ' €'}"></td>
+                    <td th:text="${#temporals.format(reserva.dataInici, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(reserva.dataFin, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${reserva.fianca + ' €'}"></td>
+                    <td th:text="${reserva.estat}"></td>
+                    <td>
+                        <!-- Botones dinámicos según el contexto -->
+                        <a th:if="${isAdmin}" th:href="@{/admin/reserves/detall/{id}(id=${reserva.id})}" class="btn btn-primary">Detalls</a>
+                        <a th:if="${!isAdmin}" th:href="@{/public/usuari/reserves/detall/{id}(id=${reserva.id})}" class="btn btn-primary">Detalls</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

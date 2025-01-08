@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Detalls d'agent</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div th:fragment="detallAgentContent">
+            <div class="container mt-5">
+                <h1>Detalls de l'agent</h1>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>DNI</th>
+                        <td th:text="${agent.dni}"></td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td th:text="${agent.nom}"></td>
+                    </tr>
+                    <tr>
+                        <th>Cognoms</th>
+                        <td th:text="${agent.cognoms}"></td>
+                    </tr>
+                    <tr>
+                        <th>Nacionalitat</th>
+                        <td th:text="${agent.nacionalitat}"></td>
+                    </tr>
+                    <tr>
+                        <th>Telèfon</th>
+                        <td th:text="${agent.telefon}"></td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td th:text="${agent.username}"></td>
+                    </tr>
+                    <tr>
+                        <th>Correu elèctronic</th>
+                        <td th:text="${agent.email}"></td>
+                    </tr>
+                    <tr>
+                        <th>Adreça</th>
+                        <td th:text="${agent.adreca}"></td>
+                    </tr>
+                    <tr>
+                        <th>Pais</th>
+                        <td th:text="${agent.pais}"></td>
+                    </tr>
+                    <tr>
+                        <th>Ciutat</th>
+                        <td th:text="${agent.ciutat}"></td>
+                    </tr>
+                    <tr>
+                        <th>Codi Postal:</th>
+                        <td th:text="${agent.codiPostal}"></td>
+                    </tr>
+                    <tr>
+                        <th>Tarjeta de crèdit</th>
+                        <td th:text="${agent.numeroTarjetaCredit}"></td>
+                    </tr>
+                    <tr>
+                        <th>Reputació</th>
+                        <td th:text="${agent.reputacio}"></td>
+                    </tr>
+                    <tr>
+                        <th>Data naixement:</th>
+                        <td th:text="${agent.dataNaixement}"></td>
+                    </tr>
+                    <tr>
+                        <th>Rol</th>
+                        <td th:text="${agent.rol}"></td>
+                    </tr>
+                </table>
+
+                <a th:href="@{/admin/agents}" class="btn btn-secondary">Tornar enrere</a>
+            </div>
+        </div>
+    </body>
+</html>

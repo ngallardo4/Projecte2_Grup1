@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Històric de Documentació</title>
+</head>
+<body>
+    <div th:fragment="historicDocumentsContent">
+        <h1>Històric de Documentació</h1>
+
+        <!-- Lista de documentos -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipus de Document</th>
+                    <th>Nom del Document</th>
+                    <th>Data de Creació</th>
+                    <th>Estat</th>
+                    <th>Accions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="doc : ${documents}">
+                    <td th:text="${doc.documentType}"></td>
+                    <td th:text="${doc.documentName}"></td>
+                    <td th:text="${#temporals.format(doc.creationDate, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${doc.documentState}"></td>
+                    <td>
+                        <a th:href="@{${doc.frontUrl}}" target="_blank">Veure Anvers</a> |
+                        <a th:href="@{${doc.backUrl}}" target="_blank">Veure Revers</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Botón para volver -->
+        <a th:href="@{/admin/clients/{id}(id=${client.id})}" class="btn btn-primary">Tornar a Detalls del Client</a>
+    </div>
+</body>
+</html>
+

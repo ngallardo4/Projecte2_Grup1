@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalls de Reserva</title>
+</head>
+<body>
+    <div th:fragment="detallReservaContent">
+        <h1>Detalls de Reserva</h1>
+
+        <!-- Contenido General visible para todos -->
+        <fieldset>
+            <legend>Detalls de la Reserva</legend>
+            <p><strong>ID de Reserva:</strong> <span th:text="${reserva.id}"></span></p>
+            <p><strong>Estat:</strong> <span th:text="${reserva.estat}"></span></p>
+            <p><strong>Cost Total:</strong> <span th:text="${reserva.costReserva + ' €'}"></span></p>
+            <p><strong>Data Inici:</strong> <span th:if="${reserva.dataInici != null}" th:text="${#temporals.format(reserva.dataInici, 'dd-MM-yyyy HH:mm')}"></span></p>
+            <p><strong>Data Fin:</strong> <span th:if="${reserva.dataFin != null}" th:text="${#temporals.format(reserva.dataFin, 'dd-MM-yyyy HH:mm')}"></span></p>
+            <p><strong>Fiança:</strong> <span th:text="${reserva.fianca + ' €'}"></span></p>
+            <p><strong>Lliurament:</strong> <span th:if="${reserva.lliurament}" style="color: green;">Lliurat</span><span th:if="${!reserva.lliurament}" style="color: red;">No Lliurat</span></p>
+            <p><strong>Retorn:</strong> <span th:if="${reserva.devolucio}" style="color: green;">Retornat</span><span th:if="${!reserva.devolucio}" style="color: red;">No Retornat</span></p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Detalls del Client</legend>
+            <p><strong>DNI:</strong> <span th:text="${reserva.client.dni}"></span></p>
+            <p><strong>Nom:</strong> <span th:text="${reserva.client.nom}"></span></p>
+            <p><strong>Cognoms:</strong> <span th:text="${reserva.client.cognoms}"></span></p>
+            <p><strong>Telèfon:</strong> <span th:text="${reserva.client.telefon}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${reserva.client.email}"></span></p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Detalls del Vehicle</legend>
+            <p><strong>Nom:</strong> <span th:text="${reserva.vehicle.nomVehicle}"></span></p>
+            <p><strong>Matrícula:</strong> <span th:text="${reserva.vehicle.matricula}"></span></p>
+            <p><strong>Límite de quilòmetres:</strong> <span th:text="${reserva.vehicle.limitQuilometratge}"></span></p>
+            <p><strong>Combustió:</strong> <span th:text="${reserva.vehicle.combustio}"></span></p>
+            <p><strong>Transmissió:</strong> <span th:text="${reserva.vehicle.transmissio}"></span></p>
+            <p><strong>Potència:</strong> <span th:text="${reserva.vehicle.potencia + ' cv'}"></span></p>
+            <p><strong>Passatgers:</strong> <span th:text="${reserva.vehicle.passatgers}"></span></p>
+            <p><strong>Comentaris d'Agent:</strong> <span th:text="${reserva.vehicle.comentarisAgent}"></span></p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Detalls de la Recollida</legend>
+            <p><strong>Codi Postal:</strong> <span th:text="${reserva.vehicle.localitzacio.codiPostal}"></span></p>
+            <p><strong>Adreça:</strong> <span th:text="${reserva.vehicle.localitzacio.adreca}"></span></p>
+            <p><strong>Ciutat:</strong> <span th:text="${reserva.vehicle.localitzacio.ciutat}"></span></p>
+            <p><strong>País:</strong> <span th:text="${reserva.vehicle.localitzacio.pais}"></span></p>
+            <p><strong>Tipus:</strong> <span th:text="${reserva.vehicle.localitzacio.tipus}"></span></p>
+            <p><strong>Horari d'Apertura:</strong> <span th:text="${#temporals.format(reserva.vehicle.localitzacio.horariApertura, 'HH:mm')}"></span></p>
+            <p><strong>Horari de Tancament:</strong> <span th:text="${#temporals.format(reserva.vehicle.localitzacio.horariTancament, 'HH:mm')}"></span></p>
+        </fieldset>
+
+        <!-- Opciones adicionales solo para admin -->
+        <div th:if="${isAdmin}">
+            <div style="text-align: center; margin-top: 10px;">
+                <form th:action="@{/admin/reserves/{id}/lliurament(id=${reserva.id})}" method="post">
+                    <button type="submit" th:disabled="${reserva.lliurament}" class="btn btn-success">Marcar Lliurament</button>
+                </form>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <form th:action="@{/admin/reserves/{id}/devolucio(id=${reserva.id})}" method="post">
+                    <button type="submit" th:disabled="${reserva.devolucio}" class="btn btn-primary">Marcar Devolució</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Botón para volver -->
+        <div style="margin-top: 20px; text-align: center;">
+            <a th:href="@{${isAdmin} ? '/admin/reserves' : '/public/usuari/reserves'}" class="btn btn-secondary">Tornar a les Reserves</a>
+        </div>
+    </div>
+</body>
+</html>

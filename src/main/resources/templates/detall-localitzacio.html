@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalls de Localització</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:fragment="detallLocalitzacioContent">
+    <div class="container mt-5">
+        <h1>Detalls de la Localització</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th class="text-nowrap w-25">Codi Postal</th>
+                <td th:text="${localitzacio.codiPostal}"></td>
+            </tr>
+            <tr>
+                <th class="text-nowrap w-25">Agent assignat</th>
+                <td th:text="${localitzacio.agent.nom + ' (' + localitzacio.agent.dni + ')'}"></td>
+            </tr>
+            <tr>
+                <th class="text-nowrap w-25">Adreça</th>
+                <td th:text="${localitzacio.adreca}"></td>
+            </tr>
+            <tr>
+                <th class="text-nowrap w-25">Ciutat</th>
+                <td th:text="${localitzacio.ciutat}"></td>
+            </tr>
+            <tr>
+                <th class="text-nowrap w-25">País</th>
+                <td th:text="${localitzacio.pais}"></td>
+            </tr>
+            <tr>
+                <th class="text-nowrap w-25">Tipus</th>
+                <td th:text="${localitzacio.tipus}"></td>
+            </tr>
+            <tr>
+                <th class="text-nowrap w-25">Horari Apertura</th>
+                <td th:text="${localitzacio.horariApertura}"></td>
+            </tr>
+            <tr>
+                <th class="text-nowrap w-25">Horari Tancament</th>
+                <td th:text="${localitzacio.horariTancament}"></td>
+            </tr>
+        </table>
+
+        <a th:href="@{/admin/localitzacio/{codiPostal}/vehicles(codiPostal=${localitzacio.codiPostal})}" class="btn btn-primary">
+            Mostrar Vehicles
+        </a>
+        <a th:href="@{/admin/localitzacio}" class="btn btn-secondary">Tornar a la llista</a>
+    </div>
+    </div>
+</body>
+</html>

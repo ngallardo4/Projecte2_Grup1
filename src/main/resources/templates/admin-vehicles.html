@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Vehicles</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- CSS personalizado -->
+        <!-- <link rel="stylesheet" href="styles.css">-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <style>
+            .details-row {
+                display: none;
+                background-color: #f9f9f9;
+            }
+            .details-row td {
+                padding: 10px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div th:fragment="vehicleContent">
+            <div th:if="${message}" class="alert alert-success mt-3" role="alert">
+                <p th:text="${message}"></p>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="mt-3">
+                <a href="/admin/vehicles/crear-vehicle" class="btn btn-custom btn-modify">Crear</a>
+                <a href="#" id="modify-link" class="btn btn-custom btn-modify" onclick="setModifyLink()">Modificar</a>
+                <a href="#" id="create-incident-link" class="btn btn-custom btn-incident" onclick="setCreateIncidentLink()">Crear Incidència</a>
+                <a href="#" id="list-incidents-link" class="btn btn-custom btn-info" onclick="setListIncidentsLink()">Llistar Incidències</a>
+            </div>
+
+            <!-- Formulario para eliminar vehículos -->
+            <form action="/admin/eliminarVehicle" method="post">
+
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                <button type="submit" class="btn btn-custom btn-delete mt-3">Eliminar</button>
+
+                <!-- Instrucciones y tabla de vehículos -->
+                <div class="text-instructions mt-3">
+                    <p>Selecciona un vehicle existent per Eliminar-lo.</p>
+                </div>
+
+                <!-- Tabla de vehículos -->
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Seleccionar</th>
+                                <th>Matrícula</th>
+                                <th>Nom del Vehicle</th>
+                                <th>Localització</th>
+                                <th>Disponibilitat</th>
+                                <th>Imatges</th>
+                                <th>Accions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="vehicle : ${vehicles}">
+                                <td>
+                                    <input type="checkbox" name="matriculas" th:value="${vehicle.matricula}">
+                                </td>
+                                <td th:text="${vehicle.matricula}">Matrícula</td>
+                                <td th:text="${vehicle.nomVehicle}">Nom del Vehicle</td>
+                                <td th:text="${vehicle.localitzacio?.codiPostal}">Localització</td>
+                                <td th:text="${vehicle.disponibilitat} ? 'Disponible' : 'Ocupat'"></td><br>
+                                <td>
+                                    <img th:if="${vehicle.imatgeVehicle != null}"
+                                         th:src="@{/admin/vehicle/imatge/{matricula}(matricula=${vehicle.matricula})}"
+                                         style="width: 100px; height: 100px;" alt="Imatge Vehicle">
+                                    <span th:if="${vehicle.imatgeVehicle == null}"> No disponible</span>
+                                </td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-sm" 
+                                    th:attr="onclick=|toggleDetails('${vehicle.matricula}')|">
+
+                                Veure més
+                            </button>
+                            <a th:if="${vehicle.pdfId != null}"
+                               th:href="@{/admin/vehicles/pdf/{id}(id=${vehicle.pdfId})}"
+                               class="btn btn-sm btn-danger" target="_blank">
+                                Descarregar PDF
+                            </a>
+                            <span th:if="${vehicle.pdfId == null}">No disponible</span>
+                        </td>
+                        </tr>
+                        <tr th:each="vehicle : ${vehicles}" th:id="'details-' + ${vehicle.matricula}" class="details-row">
+                            <td colspan="5">
+                                <strong>Combustió:</strong> <span th:text="${vehicle.combustio}"></span><br>
+                                <strong>Transmissió:</strong> <span th:text="${vehicle.transmissio}"></span><br>
+                                <strong>Tipus de Vehivle:</strong> <span th:text="${vehicle.tipus}"></span><br>
+                                <strong>Nombre de passatgers:</strong> <span th:text="${vehicle.passatgers}"></span><br>
+                                <strong>Potència del vehicle:</strong> <span th:text="${vehicle.potencia}"></span><br>
+                                <strong>Límit Quilometratge:</strong> <span th:text="${vehicle.limitQuilometratge}"></span><br>
+                                <strong>Preu per Hora de Lloguer:</strong> <span th:text="${vehicle.preuPerHoraLloguer}"></span><br>
+                                <strong>Mínim Hores Lloguer:</strong> <span th:text="${vehicle.minimHoresLloguer}"></span><br>
+                                <strong>Màxim Hores Lloguer:</strong> <span th:text="${vehicle.maximHoresLloguer}"></span><br>
+                                <strong>Fiança Estàndard:</strong> <span th:text="${vehicle.fiancaStandard}"></span><br>
+                                <strong>Comentaris Agent:</strong> <span th:text="${vehicle.comentarisAgent}"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

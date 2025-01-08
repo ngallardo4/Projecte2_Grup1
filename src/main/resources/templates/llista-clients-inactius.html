@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Llista de Clients</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:fragment="inactiusClientsContent">
+    <h1 class="mb-4">Llista de Clients</h1>
+    
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+    <!-- Formulario de Búsqueda -->
+    <form th:action="@{/admin/clients}" method="get">
+        <input type="text" name="filtro" th:value="${filtro}" placeholder="Busca por correo, DNI, apellidos o nacionalidad" />
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Tabla de Resultados -->
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>DNI</th>
+                <th>Nom</th>
+                <th>Cognoms</th>
+                <th>Email</th>
+                <th>Nacionalitat</th>
+                <th>Telèfon</th>
+                <th>Accions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="client : ${clients}">
+                <td th:text="${client.dni}"></td>
+                <td th:text="${client.nom}"></td>
+                <td th:text="${client.cognoms}"></td>
+                <td th:text="${client.email}"></td>
+                <td th:text="${client.nacionalitat}"></td>
+                <td th:text="${client.telefon}"></td>
+                <td>
+                    <a th:href="@{/admin/clients/detall/{dni}(dni=${client.dni})}" class="btn btn-primary btn-sm">Mostrar més</a>
+                    <form th:action="@{/admin/clients/{dni}/activar(dni=${client.dni})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-success btn-sm">Activar Client</button>
+                        </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/admin/clients" class="btn btn-primary">Tornar a la llista</a>
+    </div>
+</body>
+</html>

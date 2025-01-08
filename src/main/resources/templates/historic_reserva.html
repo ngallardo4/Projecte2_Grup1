@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Històric de Reserva</title>
+</head>
+<body>
+    <h1>Històric de Canvis de la Reserva</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Acció</th>
+                <th>Estat</th>
+                <th>Data Inici</th>
+                <th>Data Fin</th>
+                <th>Cost</th>
+                <th>Fiança</th>
+                <th>DNI Client</th>
+                <th>Matrícula Vehicle</th>
+                <th>Data i Hora del Canvi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entrada : ${historic}">
+                <td th:text="${entrada.accio}"></td>
+                <td th:text="${entrada.estat}"></td>
+                <td th:text="${#temporals.format(entrada.dataInici, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(entrada.dataFin, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${entrada.costReserva}"></td>
+                <td th:text="${entrada.fianca}"></td>
+                <td th:text="${entrada.dniCliente}"></td>
+                <td th:text="${entrada.matriculaVehiculo}"></td>
+                <td th:text="${#temporals.format(entrada.timestamp, 'dd-MM-yyyy HH:mm:ss')}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

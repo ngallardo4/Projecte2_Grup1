@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Detalls del Client</title>
+    </head>
+    <body>
+        <div th:fragment="detallClientsContent">
+            <h1>Detalls del Client</h1>
+
+            <!-- Datos del Cliente -->
+            <div>
+                <p><strong>DNI:</strong> <span th:text="${client.dni}"></span></p>
+                <p><strong>Nom:</strong> <span th:text="${client.nom}"></span></p>
+                <p><strong>Cognoms:</strong> <span th:text="${client.cognoms}"></span></p>
+                <p><strong>Username:</strong> <span th:text="${client.username}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${client.email}"></span></p>
+                <p><strong>Direcció:</strong> <span th:text="${client.adreca}"></span></p>
+                <p><strong>País:</strong> <span th:text="${client.pais}"></span></p>
+                <p><strong>Ciutat:</strong> <span th:text="${client.ciutat}"></span></p>
+                <p><strong>Codi Postal:</strong> <span th:text="${client.codiPostal}"></span></p>
+                <p><strong>Reputació:</strong> <span th:text="${client.reputacio}"></span></p>
+                <p><strong>Data de Naixement:</strong> <span th:text="${client.dataNaixement}"></span></p>
+                <p><strong>Número de Tarjeta:</strong> <span th:text="${client.numeroTarjetaCredit}"></span></p>
+                <p><strong>Nacionalitat:</strong> <span th:text="${client.nacionalitat}"></span></p>
+                <p><strong>Telèfon:</strong> <span th:text="${client.telefon}"></span></p>
+
+                <!-- Campo de Contraseña -->
+                <p>
+                    <strong>Contrasenya:</strong>
+                    <input type="password" id="pwd" readonly th:value="${client.pwd}" />
+                    <button type="button" onclick="togglePasswordVisibility()">Mostrar</button>
+                </p>
+
+
+            </div>
+            <!-- Botones de Acciones -->
+            <div style="margin-top: 20px; margin-bottom: 20px;">
+                <a th:href="@{/admin/clients/modificar/{dni}(dni=${client.dni})}" class="btn btn-warning">Modificar</a>
+                <form th:action="@{/admin/clients/eliminar_client}" method="post" style="display:inline;">
+                    <input type="hidden" name="dni" th:value="${client.dni}" />
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Estàs segur que vols eliminar aquest client?');">Eliminar</button>
+                </form>
+            </div>
+
+            <!-- Documentació del Client -->
+            
+            <div th:fragment="documentacio">
+                <h3>Documentació del DNI</h3>
+                <div th:if="${dniDocument != null}">
+                    <p>Nom del document: <span th:text="${dniDocument.documentName}"></span></p>
+                    <p>Data de creació: <span th:text="${#temporals.format(dniDocument.creationDate, 'dd-MM-yyyy')}"></span></p>
+                    <div>
+                        <!-- Mostrar imagen o PDF según el tipo MIME -->
+                        <div th:if="${dniDocument.frontFileMimeType.startsWith('image/')}">
+                            <img th:src="'data:' + ${dniDocument.frontFileMimeType} + ';base64,' + ${dniFrontBase64}" 
+                                 alt="Anvers DNI" class="document-img">
+                        </div>
+                        <div th:if="${dniDocument.frontFileMimeType == 'application/pdf'}">
+                            <iframe th:src="'data:application/pdf;base64,' + ${dniFrontBase64}" 
+                                    width="100%" height="500px"></iframe>
+                        </div>
+                        <div th:if="${dniDocument.backFileMimeType.startsWith('image/')}">
+                            <img th:src="'data:' + ${dniDocument.backFileMimeType} + ';base64,' + ${dniBackBase64}" 
+                                 alt="Revers DNI" class="document-img">
+                        </div>
+                        <div th:if="${dniDocument.backFileMimeType == 'application/pdf'}">
+                            <iframe th:src="'data:application/pdf;base64,' + ${dniBackBase64}" 
+                                    width="100%" height="500px"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${dniDocument == null}">
+                    <p>No hi ha documentació activa pel DNI.</p>
+                </div>
+                <a th:href="@{/admin/clients/{id}/documents/dni/new(id=${client.dni})}" class="btn btn-success">Afegir/Modificar DNI</a>
+
+                <h3>Llicència de Conduir</h3>
+                <div th:if="${licenseDocument != null}">
+                    <p>Nom del document: <span th:text="${licenseDocument.documentName}"></span></p>
+                    <p>Data de creació: <span th:text="${#temporals.format(licenseDocument.creationDate, 'dd-MM-yyyy')}"></span></p>
+                    <div>
+                        <div th:if="${licenseDocument.frontFileMimeType.startsWith('image/')}">
+                            <img th:src="'data:' + ${licenseDocument.frontFileMimeType} + ';base64,' + ${licenseFrontBase64}" 
+                                 alt="Anvers Llicència" class="document-img">
+                        </div>
+                        <div th:if="${licenseDocument.frontFileMimeType == 'application/pdf'}">
+                            <iframe th:src="'data:application/pdf;base64,' + ${licenseFrontBase64}" 
+                                    width="100%" height="500px"></iframe>
+                        </div>
+                        <div th:if="${licenseDocument.backFileMimeType.startsWith('image/')}">
+                            <img th:src="'data:' + ${licenseDocument.backFileMimeType} + ';base64,' + ${licenseBackBase64}" 
+                                 alt="Revers Llicència" class="document-img">
+                        </div>
+                        <div th:if="${licenseDocument.backFileMimeType == 'application/pdf'}">
+                            <iframe th:src="'data:application/pdf;base64,' + ${licenseBackBase64}" 
+                                    width="100%" height="500px"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${licenseDocument == null}">
+                    <p>No hi ha documentació activa per la llicència de conduir.</p>
+                </div>
+                <a th:href="@{/admin/clients/{id}/documents/license/new(id=${client.dni})}" class="btn btn-success">Afegir/Modificar Llicència</a>
+            </div>
+        </div>
+        <div th:if="${license == null}">
+            <p>No hi ha documentació activa per la llicència de conduir.</p>
+        </div>
+        <a th:href="@{/admin/clients/{id}/documents/license/new(id=${client.dni})}" class="btn btn-success">Afegir/Modificar Llicència</a>
+    </div>
+
+
+
+    <!-- Botón para volver a la lista -->
+    <div style="margin-top: 20px;">
+        <a href="/admin/clients" class="btn btn-primary">Tornar</a>
+    </div>
+</div>
+
+<!-- Script para Mostrar/Ocultar Contraseña -->
+<script>
+    function togglePasswordVisibility() {
+        var pwdField = document.getElementById("pwd");
+        pwdField.type = (pwdField.type === "password") ? "text" : "password";
+    }
+</script>
+</body>
+</html>

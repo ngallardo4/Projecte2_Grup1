@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>RANARE - Llista d'Incidències</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div th:fragment="llistarIncidenciaContent">
+            <div class="container my-5">
+                <h2 class="text-primary">Llista d'Incidències</h2>
+
+                <form th:action="@{/admin/vehicles/incidencies}" method="get" class="form-inline mb-4">
+                    <label for="matricula" class="mr-2">Filtrar per matrícula:</label>
+                    <input type="text" name="matricula" id="matricula" class="form-control mr-2" placeholder="Matrícula del vehicle">
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    <a th:href="@{/admin/vehicles/incidencies}" class="btn btn-secondary ml-2" role="button">Restableix</a>
+                </form>
+
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Matrícula del Vehicle</th>
+                            <th>Estat</th>
+                            <th>Motiu</th>
+                            <th>Cost</th>
+                            <th>Data Inici</th>
+                            <th>Data Final</th>
+                            <th>Culpabilitat</th>
+                            <th>Accions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="incidencia : ${incidencies}">
+                            <td th:text="${incidencia.idIncidencia}"></td>
+                            <td th:text="${incidencia.vehicle.matricula}"></td>
+                            <td th:text="${incidencia.estat}"></td>
+                            <td th:text="${incidencia.motiu}"></td>
+                            <td th:text="${incidencia.cost}"></td>
+                            <td th:if="${incidencia.dataInici != null}" th:text="${#temporals.format(incidencia.dataInici, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td>
+                                <span th:if="${incidencia.dataFinal != null}" th:text="${#temporals.format(incidencia.dataFinal, 'yyyy-MM-dd HH:mm')}"></span>
+                                <span th:unless="${incidencia.dataFinal != null}"></span>
+                            </td>
+
+                            <td th:text="${incidencia.culpabilitat ? 'Usuari' : 'Vehicle'}"></td>
+                            <td>
+                                <a th:href="@{/admin/vehicles/incidencies/modificar/{id}(id=${incidencia.idIncidencia})}" class="btn btn-sm btn-warning">Modificar</a>
+                                <a th:href="@{/admin/vehicles/incidencies/visualitzar/{id}(id=${incidencia.idIncidencia})}" class="btn btn-sm btn-info">Visualitzar Imatges</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        Descarregar PDFs
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a th:href="@{/admin/vehicles/incidencies/descarregarTots/{id}(id=${incidencia.idIncidencia})}" class="dropdown-item text-primary">
+                                            Descarregar tots com ZIP
+                                        </a>
+                                        <a th:each="pdfId : ${incidencia.documentsIncidenciaId}"
+                                           th:href="@{/admin/vehicles/incidencies/descarregar/{id}/{pdfId}(id=${incidencia.idIncidencia}, pdfId=${pdfId})}"
+                                           class="dropdown-item">
+                                            PDF [[${pdfId}]]
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(incidencies)}">
+                            <td colspan="9" class="text-center">No s'han trobat incidències.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

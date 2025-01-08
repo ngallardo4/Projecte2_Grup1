@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RANARE - Visualitzar Imatges</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h2 class="text-primary mb-4">
+                Imatges de la Incidència
+            </h2>
+            
+            <!-- Mostrar error si no hay imágenes -->
+            <div th:if="${error}" class="alert alert-warning">
+                <p th:text="${error}"></p>
+            </div>
+
+            <!-- Mostrar imágenes si existen -->
+            <div class="row" th:if="${imatgesIds != null and !imatgesIds.isEmpty()}">
+                <div class="col-md-4 mb-3 d-flex justify-content-center" th:each="imatgeId : ${imatgesIds}">
+                    <img th:src="@{/admin/vehicles/incidencies/imatges/{id}(id=${imatgeId})}" 
+                         alt="Imatge de la incidència" 
+                         class="img-fluid img-thumbnail" 
+                         style="max-width: 100%; height: auto;"/>
+                </div>
+            </div>
+
+            <!-- Mensaje si no hay imágenes -->
+            <div th:if="${imatgesIds == null or imatgesIds.isEmpty()}">
+                <p class="text-muted">No hi ha imatges disponibles per aquesta incidència.</p>
+            </div>
+            
+            <!-- Botón para regresar -->
+            <div class="mt-4">
+                <a href="/admin/vehicles/incidencies" class="btn btn-secondary">Tornar a la Llista</a>
+            </div>
+        </div>
+    </body>
+</html>

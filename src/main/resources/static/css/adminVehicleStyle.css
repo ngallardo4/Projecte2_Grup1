@@ -1,0 +1,82 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para los botones */
+.btn-custom {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+/* Estilo para los botones Crear/Modificar y Eliminar */
+.btn-modify {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-modify:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    border-right: 2px solid #ddd;
+}
+
+.sidebar h4 {
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+.nav-link {
+    font-size: 16px;
+    color: #495057;
+}
+
+.nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Instrucciones */
+.text-instructions p {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+/* Tabla de vehículos */
+.table {
+    margin-top: 20px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.details-row {
+    display: none;
+    background-color: #f9f9f9;
+}
+
+.details-row td {
+    padding: 10px;
+}

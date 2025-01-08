@@ -1,0 +1,67 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Estilos para el encabezado */
+.header {
+    background-color: #00a9e0;
+    color: white;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Logo del coche */
+.cochelogo {
+    width: 70px; /* Tamaño reducido del logo */
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Imagen de fondo */
+.fons-cotxes {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('../img/coches.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Sección de búsqueda sobre la imagen */
+.search-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Diseño de los campos */
+.search-section .field label {
+    font-size: 0.9em;
+    color: #333;
+}
+
+/* Botón de mostrar coches */
+.btn-primary {
+    background-color: #00a9e0;
+    border-color: #00a9e0;
+}
+
+/* Imagen de los coches */
+.car-image img {
+    width: 80%;
+    max-width: 1000px;
+    border-radius: 10px;
+}

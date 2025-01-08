@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Modificar Client</title>
+    </head>
+    <body>
+        <div th:fragment="modificarClientsContent">
+        <h1>Formulari de modificació de client</h1>
+
+        <form th:action="@{/clients/modificar/{dni}(dni=${client.dni})}" th:object="${client}" method="post">
+            <!-- Mostrar errores globales -->
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
+
+            <!-- Mostrar el DNI como solo lectura -->
+            <p><strong>DNI:</strong> <span th:text="${client.dni}"></span></p>
+
+            <!-- Campos modificables -->
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" th:field="*{nom}" placeholder="Nom" required />
+            <span class="error" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></span>
+            <br/>
+
+            <label for="cognoms">Cognoms:</label>
+            <input type="text" id="cognoms" th:field="*{cognoms}" placeholder="Cognoms" required />
+            <span class="error" th:if="${#fields.hasErrors('cognoms')}" th:errors="*{cognoms}"></span>
+            <br/>
+
+            <label for="dataNaixement">Data de naixement:</label>
+            <input type="date" id="dataNaixement" th:field="*{dataNaixement}" required />
+            <span class="error" th:if="${#fields.hasErrors('dataNaixement')}" th:errors="*{dataNaixement}"></span>
+            <br/>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}" placeholder="Correu@email.com" required  />
+            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <br/>
+
+            <label for="numeroTarjetaCredit">Número targeta de crèdit:</label>
+            <input type="text" id="numeroTarjetaCredit" th:field="*{numeroTarjetaCredit}" placeholder="Tarja de crèdit" required />
+            <span class="error" th:if="${#fields.hasErrors('numeroTarjetaCredit')}" th:errors="*{numeroTarjetaCredit}"></span>
+            <br/>
+
+            <label for="adreca">Direcció:</label>
+            <input type="text" id="adreca" th:field="*{adreca}" placeholder="Direcció" required />
+            <span class="error" th:if="${#fields.hasErrors('adreca')}" th:errors="*{adreca}"></span>
+            <br/>
+
+            <label for="pais">País:</label>
+            <input type="text" id="pais" th:field="*{pais}" placeholder="País" required />
+            <span class="error" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></span>
+            <br/>
+
+            <label for="ciutat">Ciutat:</label>
+            <input type="text" id="ciutat" th:field="*{ciutat}" placeholder="Ciutat" required />
+            <span class="error" th:if="${#fields.hasErrors('ciutat')}" th:errors="*{ciutat}"></span>
+            <br/>
+
+            <label for="codiPostal">Codi postal:</label>
+            <input type="text" id="codiPostal" th:field="*{codiPostal}" placeholder="Codi Postal" required />
+            <span class="error" th:if="${#fields.hasErrors('codiPostal')}" th:errors="*{codiPostal}"></span>
+            <br/>
+
+            <label for="reputacio">Reputació:</label>
+            <select id="reputacio" th:field="*{reputacio}">
+                <option value="NORMAL" th:selected="${client.reputacio == 'NORMAL'}">Normal</option>
+                <option value="PREMIUM" th:selected="${client.reputacio == 'PREMIUM'}">Premium</option>
+            </select>
+            <span th:if="${#fields.hasErrors('reputacio')}" th:errors="*{reputacio}"></span>
+            <br/>
+
+            <button type="submit">Actualitzar Client</button>
+        </form>
+        </div>
+    </body>
+</html>

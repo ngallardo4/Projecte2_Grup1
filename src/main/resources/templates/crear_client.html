@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Crear Client</title>
+    </head>
+    <body>
+        <div th:fragment="crearClientsContent">
+        <h1>Formulari per crear un client</h1>
+
+        <!-- Mostrar errores globales -->
+        <form th:action="@{/admin/clients/crear_client}" th:object="${client}" method="post">
+            <!-- Mostrar errores globales -->
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
+
+            <!-- Campo de DNI -->
+            <label for="dni">DNI: <span class="text-danger">*</span></label>
+            <input type="text" id="dni" th:field="*{dni}" placeholder="00000000X" pattern="^\d{8}[A-Za-z]$" title="El DNI ha de tenir exactament 8 dígits seguits de una letra (per exemple, 12345678A)" required oninput="this.value = this.value.toUpperCase();" /><br/>
+            <span class="error" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></span>
+            <br/>
+
+            <!-- Campo de Nombre -->
+            <label for="nom">Nom: <span class="text-danger">*</span> </label>
+            <input type="text" id="nom" th:field="*{nom}" placeholder="Nom" required oninput="capitalize(this);" /><br/>
+            <span class="error" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></span>
+            <br/>
+
+            <!-- Campo de Apellidos -->
+            <label for="cognoms">Cognoms: <span class="text-danger">*</span> </label>
+            <input type="text" id="cognoms" th:field="*{cognoms}" placeholder="Cognoms" required oninput="capitalize(this)" /><br/>
+            <span class="error" th:if="${#fields.hasErrors('cognoms')}" th:errors="*{cognoms}"></span>
+            <br/>
+
+            <label for="username">Nom d'usuari: <span class="text-danger">*</span> </label>
+            <input type="text" id="username" th:field="*{username}" placeholder="Nom d'usuari" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+            <br/>
+
+            <!-- Campo de Contraseña -->
+            <label for="pwd">Contrasenya: <span class="text-danger">*</span> </label>
+            <div style="display: flex; align-items: center;">
+                <input type="password" id="pwd" th:field="*{pwd}" placeholder="Contrasenya" required /><br/>
+                <button type="button" id="togglePwdVisibility" onclick="togglePasswordVisibility()">Mostrar</button>
+            </div>
+            <span class="error" th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}"></span>
+            <br/>
+
+            <!-- Campo de Fecha de Nacimiento -->
+            <label for="dataNaixement">Data de naixement: <span class="text-danger">*</span> </label>
+            <input type="date" id="dataNaixement" th:field="*{dataNaixement}" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('dataNaixement')}" th:errors="*{dataNaixement}"></span>
+            <br/>
+
+            <!-- Campo de Correo Electrónico -->
+            <label for="email">Correu electrònic: <span class="text-danger">*</span> </label>
+            <input type="email" id="email" th:field="*{email}" placeholder="correu@electronic.cat" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <br/>
+
+            <!-- Campo de Número de Tarjeta de Crédito -->
+            <label for="numeroTarjetaCredit">Número de Tarjeta de Crèdit: <span class="text-danger">*</span> </label>
+            <input type="text" id="numeroTarjetaCredit" th:field="*{numeroTarjetaCredit}" placeholder="Número de tarjeta de crèdit" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('numeroTarjetaCredit')}" th:errors="*{numeroTarjetaCredit}"></span>
+            <br/>
+
+            <!-- Campo de Dirección -->
+            <label for="adreca">Direcció: <span class="text-danger">*</span> </label>
+            <input type="text" id="adreca" th:field="*{adreca}" placeholder="Direcció" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('adreca')}" th:errors="*{adreca}"></span>
+            <br/>
+
+            <!-- Campo de País -->
+            <label for="pais">País: <span class="text-danger">*</span> </label>
+            <input type="text" id="pais" th:field="*{pais}" placeholder="País" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></span>
+            <br/>
+
+            <!-- Campo de Ciudad -->
+            <label for="ciutat">Ciutat: <span class="text-danger">*</span> </label>
+            <input type="text" id="ciutat" th:field="*{ciutat}" placeholder="Ciutat" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('ciutat')}" th:errors="*{ciutat}"></span>
+            <br/>
+
+            <!-- Campo de Código Postal -->
+            <label for="codiPostal">Codi postal: <span class="text-danger">*</span> </label>
+            <input type="text" id="codiPostal" th:field="*{codiPostal}" placeholder="Codi postal" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('codiPostal')}" th:errors="*{codiPostal}"></span>
+            <br/>
+
+
+
+            <!-- Campo de Nacionalidad -->
+            <label for="nacionalitat">Nacionalitat: <span class="text-danger">*</span> </label>
+            <input type="text" id="nacionalitat" th:field="*{nacionalitat}" placeholder="Nacionalitat" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('nacionalitat')}" th:errors="*{nacionalitat}"></span>
+            <br/>
+
+            <!-- Campo de Teléfono -->
+            <label for="telefon">Telèfon: <span class="text-danger">*</span> </label>
+            <input type="text" id="telefon" th:field="*{telefon}" placeholder="Telèfon (9 dígits)" pattern="\d{9}" title="El telèfon ha de tenir exactament 9 dígits" required /><br/>
+            <span class="error" th:if="${#fields.hasErrors('telefon')}" th:errors="*{telefon}"></span>
+            <br/>
+
+            <!-- Campo de Reputación -->
+            <label for="reputacio">Reputació: <span class="text-danger">*</span> </label> 
+            <select id="reputacio" th:field="*{reputacio}">
+                <option value="NORMAL">Normal</option>
+                <option value="PREMIUM">Premium</option>
+            </select><br/>
+            <span th:if="${#fields.hasErrors('reputacio')}" th:errors="*{reputacio}"></span>
+            <br/>
+
+            <button type="submit">Crear Client</button>
+        </form>
+        </div>
+    </body>
+</html>

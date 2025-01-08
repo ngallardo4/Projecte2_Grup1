@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html lang="es">
+    <head>
+        <title>RANARE - Crear Incidencia</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div th:fragment="crearIncidenciaContent">
+        <div class="container my-5">
+            <h2 class="text-primary">CREAR INCIDÈNCIA</h2>
+        </div>
+        <div th:if="${message}" class="alert alert-success" role="alert">
+            <p th:text="${message}"></p>
+        </div>
+        <form th:action="@{/admin/vehicles/crear-incidencia}" th:object="${incidencia}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{idIncidencia}"/>
+            
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Culpabilitat</label>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="culpabilitatTrue" name="culpabilitat" th:field="*{culpabilitat}" value="true" required>
+                        <label class="form-check-label" for="culpabilitatTrue">Culpa de l'Usuari</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="culpabilitatFalse" name="culpabilitat" th:field="*{culpabilitat}" value="false" required>
+                        <label class="form-check-label" for="culpabilitatFalse">Culpa del Vehicle</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="estat">Estat <span class="text-danger">*</span></label>
+                    <select class="form-control" id="estat" th:field="*{estat}" required>
+                        <option value="">Selecciona un estat</option>
+                        <option value="OBERTA">Oberta</option>
+                        <option value="TANCADA">Tancada</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="vehicle">Vehicle <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="vehicle" th:field="*{vehicle.matricula}" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="descripcio">Motiu de la incidència <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="motiu" rows="5" placeholder="Detalla el motiu" th:field="*{motiu}" required></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="dataInici">Data d'Inici</label>
+                    <input type="datetime-local" class="form-control" id="dataInici" th:field="*{dataInici}" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="dataFinal">Data Final</label>
+                    <input type="datetime-local" class="form-control" id="dataFinal" th:field="*{dataFinal}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="cost">Cost</label>
+                    <input type="number" class="form-control" id="cost" placeholder="Cost de la incidència" th:field="*{cost}" step="0.10">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="documentsIncidenciaId">Documents Relacionats</label>
+                    <input type="text" class="form-control" id="documentsIncidenciaId" placeholder="ID dels documents" th:field="*{documentsIncidenciaId}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="imatges">Pujar Imatges</label>
+                    <input type="file" class="form-control-file" id="imatges" name="imatges" multiple accept="image/*">
+                    <small class="form-text text-muted">Podeu pujar múltiples imatges relacionades amb l'incidència.</small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="pdfs">Pujar PDFs</label>
+                    <input type="file" class="form-control-file" id="pdfs" name="pdfs" multiple accept="application/pdf">
+                    <small class="form-text text-muted">Podeu pujar múltiples documents en format PDF relacionats amb l'incidència.</small>
+                </div>
+            </div>  
+            <div>
+                <button type="submit" class="btn btn-primary">Desa</button>
+            </div>   
+        </form>
+        </div>
+    </body>
+</html>
